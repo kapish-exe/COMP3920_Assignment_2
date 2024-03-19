@@ -1,63 +1,66 @@
 <%- include("templates/header") %>
-<h1>Group Chat: <%= groupName %></h1>
+<div class="container">
+    <h1>Group Chat: <%= groupName %></h1>
 
-<!-- Button to invite more people and show currently members -->
-<button id="inviteBtn">Invite More People</button>
-<div id="membersList" style="display: none;">
-    <h3>Current Members:</h3>
-    <form action="/add-members" method="post">
-        <ul>
-            <% members.forEach(member => { %>
-                <li>
-                    <input type="checkbox" name="selectedUsers" value="<%= member.user_id %>">
-                    <%= member.username %>
-                </li>
-            <% }); %>
-            <input type="hidden" name="room_id" value="<%= room_id %>">
-        </ul>
-        <button type="submit">Add Selected Members</button>
+    <!-- Button to invite more people and show currently members -->
+    <button id="inviteBtn" class="btn btn-primary">Invite More People</button>
+    <div id="membersList" class="mt-3" style="display: none;">
+        <h3>Current Members:</h3>
+        <form action="/add-members" method="post">
+            <ul class="list-group">
+                <% members.forEach(member => { %>
+                    <li class="list-group-item">
+                        <div class="form-check">
+                            <input type="checkbox" name="selectedUsers" value="<%= member.user_id %>" class="form-check-input">
+                            <label class="form-check-label"><%= member.username %></label>
+                        </div>
+                    </li>
+                <% }); %>
+                <input type="hidden" name="room_id" value="<%= room_id %>">
+            </ul>
+            <button type="submit" class="btn btn-success mt-3">Add Selected Members</button>
+        </form>
+    </div>
+
+    <!-- Show all messages in the chat group -->
+    <ul class="list-group mt-3">
+        <% messages.forEach(message => { %>
+            <li class="list-group-item">
+                <strong><%= message.username %>:</strong> <%= message.text %> 
+                <!-- Show the date each message was sent -->
+                <span><%= message.sent_datetime  %></span>
+                <!-- Show emoji reactions -->
+                <% if (message.reactions && message.reactions.length > 0) { %>
+                    <ul>
+                        <li><%= message.reactions %></li>
+                    </ul>
+                <% } %>
+                <form action="/add-reaction" method="post" class="mt-3">
+                    <input type="hidden" name="message_id" value="<%= message.message_id %>">
+                    <input type="hidden" name="room_id" value="<%= room_id %>">
+                    <select name="emoji" class="form-select mb-2">
+                        <option value="😀">😀</option>
+                        <option value="😂">😂</option>
+                        <option value="😍">😍</option>
+                        <option value="😎">😎</option>
+                        <option value="😡">😡</option>
+                        <option value="😢">😢</option>
+                        <option value="😭">😭</option>
+                        <!-- Add more emoji options as needed -->
+                    </select>
+                    <button type="submit" class="btn btn-primary">Add Reaction</button>
+                </form>
+            </li>
+        <% }); %>
+    </ul>
+
+    <!-- Form to send a new message -->
+    <form action="/send-message" method="post" class="mt-3">
+        <input type="hidden" name="room_id" value="<%= room_id %>">
+        <input type="text" name="message" class="form-control mb-2" placeholder="Enter Message">
+        <button type="submit" class="btn btn-primary">Send Message</button>
     </form>
 </div>
-
-<!-- Show all messages in the chat group -->
-<ul>
-    <% messages.forEach(message => { %>
-        <li>
-            <strong><%= message.username %>:</strong> <%= message.text %> 
-            <!-- Show the date each message was sent -->
-            <span><%= message.sent_datetime  %></span>
-            <!-- Show emoji reactions -->
-            <% if (message.reactions && message.reactions.length > 0) { %>
-                <ul>
-                    
-                        <li><%=message.reactions %></li>
-                </ul>
-            <% } %>
-            <form action="/add-reaction" method="post">
-                <input type="hidden" name="message_id" value="<%= message.message_id %>">
-                <input type="hidden" name="room_id" value="<%= room_id %>">
-                <select name="emoji">
-                    <option value="😀">😀</option>
-                    <option value="😂">😂</option>
-                    <option value="😍">😍</option>
-                    <option value="😎">😎</option>
-                    <option value="😡">😡</option>
-                    <option value="😢">😢</option>
-                    <option value="😭">😭</option>
-                    <!-- Add more emoji options as needed -->
-                </select>
-                <button type="submit">Add Reaction</button>
-            </form>
-        </li>
-    <% }); %>
-</ul>
-
-<!-- Form to send a new message -->
-<form action="/send-message" method="post">
-    <input type="hidden" name="room_id" value="<%= room_id %>">
-    <input type="text" name="message" placeholder="Enter Message">
-    <button type="submit">Send Message</button>
-</form>
 
 <script>
     // Toggle visibility of members list

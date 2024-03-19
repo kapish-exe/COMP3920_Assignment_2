@@ -283,7 +283,6 @@ app.get('/group-chat/:room_id', async (req, res) => {
 
         // Fetch messages for the group, including reactions
         const messages = await db_users.getMessagesWithReactionsByRoomId(room_id, user_id);
-        console.log(messages);
         // Render the group chat page with group data and messages
         res.render('gc', { groupName: group.name, messages: messages, members: members, room_id: room_id});
     } catch (error) {

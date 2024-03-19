@@ -1,26 +1,27 @@
 <%- include("templates/header") %>
-<h1>Chat Groups</h1>
+<div class="container">
+    <h1>Chat Groups</h1>
 
-<!-- Show a list of groups -->
-<ul>
-    <% groups.forEach(group => { %>
-        <li>
-            <!-- Make group name clickable -->
-            <a href="/group-chat/<%= group.room_id %>">Group: <%= group.name %></a><br>
-            <!-- Show the date of the most recent message -->
-            Most Recent Message Date: <%= group.mostRecentMessageDate %><br>
-            <!-- Show the number of unread messages -->
-            Unread Messages: <%= group.unreadMessagesCount %><br>
-        </li>
-    <% }); %>
-</ul>
+    <!-- Show a list of groups -->
+    <ul class="list-group">
+        <% groups.forEach(group => { %>
+            <li class="list-group-item">
+                <!-- Make group name clickable -->
+                <a href="/group-chat/<%= group.room_id %>">Group: <%= group.name %></a><br>
+                <!-- Show the date of the most recent message -->
+                Most Recent Message Date: <%= group.mostRecentMessageDate %><br>
+                <!-- Show the number of unread messages -->
+                Unread Messages: <%= group.unreadMessagesCount %><br>
+            </li>
+        <% }); %>
+    </ul>
 
-<!-- Show the total number of groups -->
-<p>Total Groups: <%= groups.length %></p>
+    <!-- Show the total number of groups -->
+    <p class="mt-3">Total Groups: <%= groups.length %></p>
 
-<!-- Button to create a new group -->
-<form action="/create-group" method="post">
-    <button type="submit">Create New Group</button>
-</form>
-
+    <!-- Button to create a new group -->
+    <form action="/create-group" method="post">
+        <button type="submit" class="btn btn-primary">Create New Group</button>
+    </form>
+</div>
 <%- include("templates/footer") %>

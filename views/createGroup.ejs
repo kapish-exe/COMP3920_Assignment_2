@@ -1,25 +1,27 @@
 <%- include("templates/header") %>
 
-<h1>Create New Group</h1>
+<div class="container">
+  <h1>Create New Group</h1>
 
-<form action="/creatinggroup" method="post">
-    <div>
-        <label for="name">Group Name:</label>
-        <input type="text" id="name" name="name" required>
+  <form action="/creatinggroup" method="post">
+    <div class="mb-3">
+      <label for="name" class="form-label">Group Name:</label>
+      <input type="text" id="name" name="name" class="form-control" required>
     </div>
-    
+
     <!-- List of users with checkboxes -->
-    <div>
-        <label>Select users to add to the group:</label>
-        <% users.forEach(user => { %>
-            <div>
-                <input type="checkbox" id="<%= user.user_id %>" name="selectedUsers" value="<%= user.user_id %>">
-                <label for="<%= user.user_id %>"><%= user.username %></label>
-            </div>
-        <% }); %>
+    <div class="mb-3">
+      <label>Select users to add to the group:</label>
+      <% users.forEach(user => { %>
+        <div class="form-check">
+          <input type="checkbox" id="<%= user.user_id %>" name="selectedUsers" value="<%= user.user_id %>" class="form-check-input">
+          <label for="<%= user.user_id %>" class="form-check-label"><%= user.username %></label>
+        </div>
+      <% }); %>
     </div>
 
-    <button type="submit">Create Group</button>
-</form>
+    <button type="submit" class="btn btn-primary">Create Group</button>
+  </form>
+</div>
 
 <%- include("templates/footer") %>
