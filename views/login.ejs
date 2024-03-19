@@ -1,0 +1,18 @@
+<%- include("templates/header") %>
+
+<h1>Login</h1>
+
+<form action="/loggingin" method="post">
+    <p>log in</p>
+    <input type="text" name="username" placeholder="Username" >
+    <br>
+    <input type="password" name="password" placeholder="Password">
+    <br>
+    <button type="submit">Login</button>
+</form>
+
+<p><%= error%></p>
+
+<!-- Add a button to redirect to the groups page -->
+
+<%- include("templates/footer") %>
